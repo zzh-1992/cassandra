@@ -2,7 +2,7 @@ package com.grapefruit.demo;
 
 import com.datastax.driver.core.*;
 
-public class Demo {
+public class CassandraDemo {
   public static void main(String[] args) {
     // 此处填写数据库连接点地址（公网或者内网的），控制台有几个就填几个。
     // 实际上SDK最终只会连上第一个可连接的连接点并建立控制连接，填写多个是为了防止单个节点挂掉导致无法连接数据库。
