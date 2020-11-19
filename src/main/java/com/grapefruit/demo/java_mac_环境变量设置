@@ -1,0 +1,10 @@
+
+
+
+
+
+export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home # 等号右边的路径目录，可以通过/usr/libexec/java_home -V这个命令得到
+export JAVA_15_HOME=/Users/zhihuangzhang/Library/Java/JavaVirtualMachines/openjdk-15.0.1/Contents/Home
+export JAVA_HOME=$JAVA_15_HOME # 设置一个中间变量，为了方便多个JDK版本时更换JAVA_HOME
+export PATH=$JAVA_HOME/bin:$PATH:. #冒号前代表JDK目录下的bin目录，冒号后代表当前目录
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
