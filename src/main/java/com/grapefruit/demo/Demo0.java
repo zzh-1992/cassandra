@@ -20,22 +20,29 @@ public class Demo0 {
 
     public static void main(String[] args) {
 
+        String localhost = "127.0.0.1";
+        //String aliyunHost = "47.115.42.52";
+
         AuthProvider authProvider = new PlainTextAuthProvider("cassandra","cassandra");
-        Cluster cluster = Cluster.builder().addContactPoint("47.115.42.52").withAuthProvider(authProvider).withPort(9042).build();
+        Cluster cluster = Cluster.builder().addContactPoint(localhost).withAuthProvider(authProvider).withPort(9041).build();
         //Cluster cluster = Cluster.builder().addContactPoint("127.0.0.1").withPort(9041).withCredentials("cassandra","cassandra").build();
 
         //cluster.connect("system");
 
         Session session = cluster.connect();
 
-        String cql = "select * from testKeyspace.testTable limit 2";
+        // 坑 ==》cassandra的keyspace在命名不能使用大写,不然会报错,找不到对应的空间
+        String table = "testKeyspace.table_name";
+        String t2 = "testKeyspace.testTable";
+
+        String cql = "select * from " + table;
         Metadata metadata = cluster.getMetadata();
         for (Host h: metadata.getAllHosts()) {
             System.out.println("address:" + h.getAddress());
         }
-        /*for (KeyspaceMetadata k: metadata.getKeyspaces()) {
+        for (KeyspaceMetadata k: metadata.getKeyspaces()) {
             System.out.println("name:" + k.getName());
-        }*/
+        }
         ResultSet set = session.execute(cql);
         ColumnDefinitions columnDefinitions = set.getColumnDefinitions();
 

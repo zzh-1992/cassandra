@@ -8,12 +8,17 @@ public class CassandraDemo {
     // 实际上SDK最终只会连上第一个可连接的连接点并建立控制连接，填写多个是为了防止单个节点挂掉导致无法连接数据库。
     // 此处无需关心连接点的顺序，因为SDK内部会先打乱连接点顺序避免不同客户端的控制连接总是连一个点。
     // 千万不要把公网和内网的地址一起填入。
+      int port = 9041;
     String[] contactPoints = new String[]{
-      "cds-xxxxxxxx-core-003.cassandra.rds.aliyuncs.com",
-      "cds-xxxxxxxx-core-002.cassandra.rds.aliyuncs.com"
+      //"cds-xxxxxxxx-core-003.cassandra.rds.aliyuncs.com",
+      //"cds-xxxxxxxx-core-002.cassandra.rds.aliyuncs.com"
+            "127.0.0.1",
+            "47.115.42.52"
     };
+    String localhost = "127.0.0.1";
+    //String aliyunHost = "47.115.42.52";
     Cluster cluster = Cluster.builder()
-      .addContactPoints("47.115.42.52")
+      .addContactPoints(localhost).withPort(port)
       // 填写账户名密码（如果忘记可以在 帐号管理 处重置）
       .withAuthProvider(new PlainTextAuthProvider("cassandra", "cassandra"))
       // 如果进行的是公网访问，需要在帐号名后面带上 @public 以切换至完全的公网链路。
