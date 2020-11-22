@@ -22,7 +22,7 @@ public class CassandraDemo {
       //.withAuthProvider(new PlainTextAuthProvider("cassandra@public", "123456"))
       .build();
     // 初始化集群，此时会建立控制连接（这步可忽略，建立Session时候会自动调用）
-    //cluster.init();
+    cluster.init();
     // 连接集群，会对每个Cassandra节点建立长连接池。
     // 所以这个操作非常重，不能每个请求创建一个Session。合理的应该是每个进程预先创建若干个。
     // 通常来说一个够用了，你也可以根据自己业务测试情况适当调整，比如把读写的Session分开管理等。
