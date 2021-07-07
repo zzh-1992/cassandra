@@ -11,6 +11,10 @@ import java.util.UUID;
 /**
  * 批量插入数据
  * @author zhihuangzhang
+ *
+ * @author zhihuangzhang
+ * @version 1.0
+ * @date 2021-07-07 5:19 下午
  */
 public class BatchInsert {
     public static void main(String[] args) {

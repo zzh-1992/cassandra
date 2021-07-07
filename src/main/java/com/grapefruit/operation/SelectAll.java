@@ -11,6 +11,13 @@ import com.grapefruit.reactive.Person;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 全查询
+ *
+ * @author zhihuangzhang
+ * @version 1.0
+ * @date 2021-07-07 5:19 下午
+ */
 public class SelectAll {
     static int fetchSize = 4;
 
