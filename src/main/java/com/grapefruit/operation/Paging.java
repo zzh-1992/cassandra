@@ -21,6 +21,10 @@ import java.util.concurrent.ExecutionException;
 /**
  * 分页查询
  *
+ * 参考链接
+ *          https://docs.datastax.com/en/developer/java-driver/3.6/manual/paging/
+ *          https://stackoverflow.com/questions/26757287/results-pagination-in-cassandra-cql
+ *
  * @author zhihuangzhang
  * @version 1.0
  * @date 2021-07-07 5:19 下午
