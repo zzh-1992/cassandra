@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
  * @version 1.0
  * @date 2021-07-07 5:19 下午
  */
-public class Paging {
+public class Cluster_Paging {
     /**
      * 定义每次拉取的条数
      */
@@ -33,7 +33,7 @@ public class Paging {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         String[] contactPoints = new String[]{
-                "47.115.42.52"
+                "172.16.163.2", "172.16.163.3", "172.16.163.4"
         };
         Cluster cluster = Cluster.builder()
                 .addContactPoints(contactPoints).withPort(9042)
