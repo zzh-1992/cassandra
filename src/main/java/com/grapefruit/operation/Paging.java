@@ -1,9 +1,6 @@
 package com.grapefruit.operation;
 
-import com.alibaba.fastjson.JSON;
 import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.ColumnDefinitions;
-import com.datastax.driver.core.DataType;
 import com.datastax.driver.core.PagingState;
 import com.datastax.driver.core.QueryOptions;
 import com.datastax.driver.core.ResultSet;
@@ -11,19 +8,18 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.SimpleStatement;
 import com.datastax.driver.core.Statement;
+import com.grapefruit.utils.CassandraUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
  * 分页查询
- *
+ * <p>
  * 参考链接
- *          https://docs.datastax.com/en/developer/java-driver/3.6/manual/paging/
- *          https://stackoverflow.com/questions/26757287/results-pagination-in-cassandra-cql
+ * https://docs.datastax.com/en/developer/java-driver/3.6/manual/paging/
+ * https://stackoverflow.com/questions/26757287/results-pagination-in-cassandra-cql
  *
  * @author zhihuangzhang
  * @version 1.0
@@ -85,7 +81,7 @@ public class Paging {
         for (Row row : rs) {
             System.out.println("first" + row);
             // 把row转换成java对象并存入集合
-            rowToList(row, list, Grape.class);
+            CassandraUtils.rowToList(row, list, Grape.class);
 
             if (--remaining == 0) {
                 break;
@@ -94,37 +90,5 @@ public class Paging {
         // 这个地方的pagingState需要和方法参数中的"pageState"做区别,"pageState"上一次的,pagingState是这次查询后的
         PagingState pagingState = rs.getExecutionInfo().getPagingState();
         return pagingState != null ? pagingState.toString() : "";
-    }
-
-    // 手写转换
-    public static <T> void rowToList(Row row, List<T> list, Class<T> tClass) {
-        // 获取列的定义
-        List<ColumnDefinitions.Definition> definitions = row.getColumnDefinitions().asList();
-
-        Map<String, Object> map = new HashMap<>();
-        for (ColumnDefinitions.Definition definition : definitions) {
-            // 获取该列的名字
-            String name = definition.getName();
-            // 获取该列的类型
-            DataType type = definition.getType();
-            if (type.getName().isCompatibleWith(DataType.Name.INT)) {
-                int i = row.getInt(name);
-                // 判断类型并获取值
-                map.put(name, i);
-                continue;
-            }
-            if (type.getName().isCompatibleWith(DataType.Name.VARCHAR)) {
-                String s = row.getString(name);
-                map.put(name, s);
-            }
-        }
-        T t = JSON.parseObject(JSON.toJSONString(map), tClass);
-        
-        /*int id = row.getInt("id");
-        String name = row.getString("name");
-        int age = row.getInt("age");
-        String address = row.getString("address");
-        Grape grape = new Grape(id, address, age, name);*/
-        list.add(t);
     }
 }

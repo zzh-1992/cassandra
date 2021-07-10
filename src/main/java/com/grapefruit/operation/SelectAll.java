@@ -6,7 +6,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.SimpleStatement;
 import com.datastax.driver.core.Statement;
-import com.grapefruit.reactive.Person;
+import com.grapefruit.entity.Person;
+import com.grapefruit.utils.CassandraUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,19 +58,7 @@ public class SelectAll {
             if (rs.getAvailableWithoutFetching() == fetchSize && !rs.isFullyFetched()) {
                 rs.fetchMoreResults();
             }
-            rowToList(r, list);
+            CassandraUtils.rowToList(r, list, Person.class);
         }
-    }
-
-    public static void rowToList(Row row, List<Person> list) {
-        if (row == null) {
-            return;
-        }
-        int id = row.getInt("id");
-        String name = row.getString("name");
-        int age = row.getInt("age");
-        String address = row.getString("address");
-        Person person = new Person(id, address, name, age);
-        list.add(person);
     }
 }
